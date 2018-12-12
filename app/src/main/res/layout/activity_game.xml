@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:padding="10dp"
+    tools:context="com.grumpycat.tetrisgame.GameActivity">
+    <LinearLayout
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/ll_tetris"
+        android:orientation="horizontal"
+        android:background="@drawable/ic_scene_bg"
+        android:layout_width="210dp"
+        android:layout_height="420dp">
+        <SurfaceView
+            android:id="@+id/sv_tetris"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/ll_tetris"
+        android:layout_weight="1"
+        android:id="@+id/ll_info"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/btn_pause"
+            android:gravity="center"
+            android:background="@drawable/sl_btn_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:src="@drawable/ic_btn_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/game_frame_style"
+            android:layout_marginTop="18dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:id="@+id/ll_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_next_label"
+                style="@style/game_info_label_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="next"/>
+
+            <com.grumpycat.tetrisgame.tools.NextView
+                android:id="@+id/next_view"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            style="@style/game_frame_style"
+            android:layout_marginTop="15dp"
+            android:id="@+id/ll_score"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_score_label"
+                style="@style/game_info_label_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="score"/>
+            <TextView
+                style="@style/game_info_text_style"
+                android:id="@+id/tv_score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/game_frame_style"
+            android:layout_marginTop="6dp"
+            android:id="@+id/ll_line"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_line_label"
+                style="@style/game_info_label_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="line"/>
+            <TextView
+                style="@style/game_info_text_style"
+                android:id="@+id/tv_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="6dp"
+            style="@style/game_frame_style"
+            android:id="@+id/ll_lv"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_level_label"
+                style="@style/game_info_label_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="level"/>
+            <TextView
+                style="@style/game_info_text_style"
+                android:id="@+id/tv_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/ll_tetris"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/ll_info"
+        android:layout_alignParentBottom="true"
+        android:layout_width="0dp"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:id="@+id/btn_rotate"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <ImageView
+                android:duplicateParentState="true"
+                android:background="@drawable/sl_btn_rotate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/btn_fastdrop"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <ImageView
+                android:duplicateParentState="true"
+                android:background="@drawable/sl_btn_fastdrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ll_tetris"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@id/ll_tetris"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/btn_left"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_btn_left"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_btn_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:gravity="center"
+            android:id="@+id/btn_right"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_btn_right"
+                android:duplicateParentState="true"
+                android:src="@drawable/ic_btn_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_root"
+    android:background="@color/colorPrimaryDark"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+    <com.grumpycat.tetrisgame.tools.EnterAnimView
+        android:id="@+id/eav"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_score"
+        android:layout_marginBottom="20dp"
+        android:layout_above="@+id/ll_btns"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/tv_score_label"
+            android:textColor="#b5950f"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Highest Score"/>
+
+        <TextView
+            android:id="@+id/tv_score"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="12dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tv_score_label"
+            android:textColor="#ffce00"
+            android:textSize="36sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Highest Score"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/ll_btns"
+        android:paddingTop="20dp"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:background="@drawable/sl_btn_bg"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:id="@+id/btn_start_new"
+            android:text="START NEW GAME"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:layout_width="180dp"
+            android:layout_height="46dp" />
+        <TextView
+            android:background="@drawable/sl_btn_bg"
+            android:layout_marginTop="16dp"
+            android:id="@+id/btn_load_saved"
+            android:text="CONTINUE SAVED GAME"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:layout_width="180dp"
+            android:layout_height="46dp" />
+
+        <TextView
+            android:background="@drawable/sl_btn_bg"
+            android:layout_marginTop="16dp"
+            android:id="@+id/btn_others"
+            android:text="OTHERS"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:layout_width="180dp"
+            android:layout_height="46dp" />
+    </LinearLayout>
+
+</RelativeLayout>

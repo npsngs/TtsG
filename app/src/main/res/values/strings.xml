@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Tetris</string>
+    <string name="highest_score">The highest score you get</string>
+    <string name="highest_almost">Almost broke the highest</string>
+    <string name="whack">Out of whack, Come on</string>
+</resources>
