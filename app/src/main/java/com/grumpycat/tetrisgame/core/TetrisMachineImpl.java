@@ -4,12 +4,12 @@ package com.grumpycat.tetrisgame.core;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.grumpycat.tetrisgame.nodes.ComboNode;
 import com.grumpycat.tetrisgame.nodes.CountDownNode;
 import com.grumpycat.tetrisgame.nodes.InfoNode;
 import com.grumpycat.tetrisgame.nodes.LevelUpNode;
 import com.grumpycat.tetrisgame.nodes.SceneNode;
 import com.grumpycat.tetrisgame.nodes.TetrisNode;
+import com.grumpycat.tetrisgame.tools.DBHelper;
 import com.grumpycat.tetrisgame.tools.SceneShaker;
 import com.grumpycat.tetrisgame.tools.SoundManager;
 
@@ -24,7 +24,6 @@ public class TetrisMachineImpl extends TetrisMachine {
     private TetrisNode tetrisNode;
     private LevelUpNode levelUpNode;
     private InfoNode infoNode;
-    private ComboNode comboNode;
     private ModeGenerator modeGenerator;
     private GameCalculator gameCalculator;
     private TetrisGenerator tetrisGenerator;
@@ -39,7 +38,7 @@ public class TetrisMachineImpl extends TetrisMachine {
     private int[] deleteLines = new int[4];
     private int deleteLineNum = 0;
     private int deleteMaxLine = 0;
-
+    private long startTime;
     public TetrisMachineImpl(SceneNode sceneNode, final UICallback uiCallback, LoopCallback loopCallback) {
         super(loopCallback);
         this.sceneNode = sceneNode;
@@ -48,8 +47,12 @@ public class TetrisMachineImpl extends TetrisMachine {
         tetrisGenerator = new TetrisGenerator();
         countDownNode = new CountDownNode();
         sceneShaker = new SceneShaker();
-        comboNode = new ComboNode();
-        gameCalculator = new GameCalculator();
+        gameCalculator = new GameCalculator(){
+            @Override
+            protected void onAddLine() {
+                 addLine();
+            }
+        };
     }
 
     @Override
@@ -85,11 +88,6 @@ public class TetrisMachineImpl extends TetrisMachine {
             infoNode.update(frameTime);
             infoNode.draw(canvas, frame);
         }
-
-        if (getCurrentState() != STATE_COUNTING) {
-            comboNode.pastTime(frameTime);
-        }
-        comboNode.draw(canvas, frame);
     }
 
     @Override
@@ -103,8 +101,8 @@ public class TetrisMachineImpl extends TetrisMachine {
         uiCallback.onScoreUp(score);
         uiCallback.onLvlUp(lv);
         uiCallback.onLineUp(lines);
-        comboNode.reset();
         sceneNode.reset();
+        startTime = System.currentTimeMillis();
     }
 
 
@@ -113,13 +111,34 @@ public class TetrisMachineImpl extends TetrisMachine {
         boolean isGameOver = checkGameOver();
         if (isGameOver){
             uiCallback.onGameOver();
+            saveGameInfo();
         }
         return isGameOver;
     }
 
+    private void saveGameInfo(){
+        new Thread(){
+            @Override
+            public void run() {
+                try{
+                    StatisticInfo info = new StatisticInfo();
+                    info.setScore(score);
+                    info.setLines(lines);
+                    info.setLvl(lv);
+                    long cur = System.currentTimeMillis();
+                    info.setEndTime(cur);
+                    info.setLastTime((int) (cur - startTime));
+                    DBHelper.insert(info);
+                    DBHelper.limitToMax();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
     @Override
     protected void onRestart() {
-        comboNode.reset();
         sceneNode.reset();
     }
 
@@ -141,7 +160,6 @@ public class TetrisMachineImpl extends TetrisMachine {
     protected void onStop() {
         gameCalculator.reset();
         sceneNode.reset();
-        comboNode.reset();
         tetrisNode = null;
     }
 
@@ -233,35 +251,6 @@ public class TetrisMachineImpl extends TetrisMachine {
         }
     }
 
-
-    public void calculateShadowY(){
-        UnitMatrix sceneMatrix = sceneNode.getUnitMatrix();
-        UnitMatrix tetrisMatrix = tetrisNode.getUnitMatrix();
-        List<int[]> indexs = tetrisMatrix.getValidUnits();
-        int offsetX = tetrisNode.getOffsetX();
-        int offsetY = tetrisNode.getOffsetY()+1;
-        if(tetrisNode.getDropY() > 0){
-            offsetY += 1;
-        }
-        boolean isTouchBottom = false;
-        do {
-            for (int[] index : indexs) {
-                int x = index[0];
-                int y = index[1];
-                int sx = offsetX + x;
-                int sy = offsetY + y;
-                int value = sceneMatrix.get(sx, sy);
-                if(value != UnitMatrix.NULL){
-                    tetrisNode.setShadowY(offsetY -1);
-                    isTouchBottom = true;
-                    break;
-                }
-            }
-            offsetY++;
-        }while (!isTouchBottom);
-    }
-
-
     private boolean tryRotate(){
         tetrisNode.rotate();
         UnitMatrix sceneMatrix = sceneNode.getUnitMatrix();
@@ -313,6 +302,45 @@ public class TetrisMachineImpl extends TetrisMachine {
 
         tetrisNode.offset(offsets[0], offsets[1]);
         return true;
+    }
+
+    public void calculateShadowY(){
+        UnitMatrix sceneMatrix = sceneNode.getUnitMatrix();
+        UnitMatrix tetrisMatrix = tetrisNode.getUnitMatrix();
+        List<int[]> indexs = tetrisMatrix.getValidUnits();
+        int offsetX = tetrisNode.getOffsetX();
+        int offsetY = tetrisNode.getOffsetY()+1;
+        if(tetrisNode.getDropY() > 0){
+            offsetY += 1;
+        }
+        boolean isTouchBottom = false;
+        do {
+            for (int[] index : indexs) {
+                int x = index[0];
+                int y = index[1];
+                int sx = offsetX + x;
+                int sy = offsetY + y;
+                int value = sceneMatrix.get(sx, sy);
+                if(value != UnitMatrix.NULL){
+                    tetrisNode.setShadowY(offsetY -1);
+                    isTouchBottom = true;
+                    break;
+                }
+            }
+            offsetY++;
+        }while (!isTouchBottom);
+    }
+
+
+    private void addLine(){
+        sceneNode.addRandomLine(score);
+        if(tetrisNode != null){
+            int offsetY = tetrisNode.getOffsetY();
+            if(offsetY > 0) {
+                tetrisNode.setOffsetY(offsetY - 1);
+            }
+            calculateShadowY();
+        }
     }
 
     @Override
@@ -414,13 +442,12 @@ public class TetrisMachineImpl extends TetrisMachine {
         uiCallback.onLineUp(this.lines);
         calculateLvlUp(this.lines);
 
-        int combo = comboNode.hit(deleteLineNum*deleteLineNum);
-        int addScore = gameCalculator.calculateScore(deleteLineNum, combo);
+        int addScore = gameCalculator.calculateScore(deleteLineNum, lv);
         this.score += addScore;
         if(infoNode == null){
             infoNode = new InfoNode();
         }
-        infoNode.show(addScore, sceneNode.getLineY(deleteMaxLine));
+        infoNode.show(addScore, deleteLineNum, sceneNode.getLineY(deleteMaxLine));
         uiCallback.onScoreUp(this.score);
     }
 
@@ -457,12 +484,13 @@ public class TetrisMachineImpl extends TetrisMachine {
                 .put("scene", sceneNode.writeToJson())
                 .put("modeGen", modeGenerator.writeToJson())
                 .put("deleteLineNum",deleteLineNum)
-                .put("deleteLines", deleteArray)
-                .put("combo", comboNode.writeToJson());
+                .put("deleteLines", deleteArray);
         if (tetrisNode != null){
             json.put("tetris", tetrisNode.writeToJson());
         }
 
+        long lastTime = System.currentTimeMillis() - startTime;
+        json.put("lastTime", lastTime);
         return json;
     }
 
@@ -487,7 +515,8 @@ public class TetrisMachineImpl extends TetrisMachine {
             tetrisNode.readFromJson(tetrisJson);
         }
 
-        comboNode.readFromJson(json.getJSONObject("combo"));
+        long lastTime = json.getLong("lastTime");
+        startTime = System.currentTimeMillis() - lastTime;
     }
 
     @Override

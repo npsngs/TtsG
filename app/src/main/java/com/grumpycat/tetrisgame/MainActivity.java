@@ -16,9 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.baidu.mobstat.StatService;
 import com.grumpycat.tetrisgame.core.Director;
 import com.grumpycat.tetrisgame.tools.AppCache;
+import com.grumpycat.tetrisgame.tools.DBHelper;
 import com.grumpycat.tetrisgame.tools.EnterAnimView;
 
 public class MainActivity extends Activity implements View.OnClickListener{
@@ -35,8 +35,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
         setContentView(R.layout.activity_main);
-
-        StatService.start(this);
 
         AppCache.preload(this);
         Typeface tf = AppCache.getTypeface();
@@ -90,6 +88,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         btn2.setOnClickListener(this);
         btn3.setOnClickListener(this);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        DBHelper.init(getApplication());
     }
 
     private void loadScore(){
@@ -125,15 +124,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
             case R.id.btn_start_new:
                 Intent intent = new Intent(this, GameActivity.class);
                 startActivity(intent);
-                StatService.onEvent(this, "start_game", "NewGame");
+                //StatService.onEvent(this, "start_game", "NewGame");
                 break;
             case R.id.btn_load_saved:
                 loadSave();
-                StatService.onEvent(this, "start_game", "SavedGame");
+                //StatService.onEvent(this, "start_game", "SavedGame");
                 break;
             case R.id.btn_others:
                 showOtherDialog();
-                StatService.onEvent(this, "others", "others");
+                //StatService.onEvent(this, "others", "others");
                 break;
         }
     }

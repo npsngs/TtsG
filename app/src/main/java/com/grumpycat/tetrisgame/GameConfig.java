@@ -14,11 +14,6 @@ public class GameConfig {
     public static final long LEVEL_UP_TIME          = 900L;
     public static final long SCORE_SHOW_TIME        = 700L;
     public static final long SPEED_UP_TIME          = 20000L;
-
-    public static final int LIMIT_HP                = 2000;
-    public static final int INIT_MAX_HP             = 500;
-    public static final int INIT_HP                 = 300;
-    public static final int SUB_HP_INTERVAL         = 500;
-
-
+    public static final long ADD_LINE_INTERVAL      = 18000L;
+    public static final int MAX_RANKS               = 4;
 }

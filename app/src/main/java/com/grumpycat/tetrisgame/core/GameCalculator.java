@@ -1,10 +1,10 @@
 package com.grumpycat.tetrisgame.core;
 
 import com.grumpycat.tetrisgame.GameConfig;
-public class GameCalculator {
-    private static float MAX_SPEED = 18.0f;
-    private static float BROKEN_SPEED = 14.0f;
-    private static float[] LVL_SPEED = {
+public abstract class GameCalculator {
+    private static final float MAX_SPEED = 18.0f;
+    private static final float BROKEN_SPEED = 14.0f;
+    private static final float[] LVL_SPEED = {
        0f, 4f, 6f, 8f,10f, 12f,BROKEN_SPEED
     };
 
@@ -14,10 +14,16 @@ public class GameCalculator {
     public float fastSpeed;
     private float unitSize;
     public void pastTime(long frameTime){
-        if(mode == 2 && speedUpLeftTime > 0){
-            speedUpLeftTime -= frameTime;
-            if(speedUpLeftTime <= 0){
+        if(mode == 2 && leftTime > 0){
+            leftTime -= frameTime;
+            if(leftTime <= 0){
                 speed = reverseSpeed * unitSize/1000;
+            }
+        }else if(mode == 3){
+            leftTime -= frameTime;
+            if(leftTime < 0){
+                leftTime = GameConfig.ADD_LINE_INTERVAL;
+                onAddLine();
             }
         }
     }
@@ -31,7 +37,7 @@ public class GameCalculator {
         fastSpeed = unitSize / 4;
     }
 
-    private long speedUpLeftTime;
+    private long leftTime;
     private float reverseSpeed;
     public void onLevelUp(int lv){
         switch (mode){
@@ -46,13 +52,14 @@ public class GameCalculator {
             }
             break;
             case 2: {
-                reverseSpeed += 0.2f;
+                reverseSpeed += 0.5f;
                 if (reverseSpeed >= MAX_SPEED) {
                     mode = 3;
+                    leftTime = GameConfig.ADD_LINE_INTERVAL;
                     speed = reverseSpeed * unitSize/1000;
                 } else {
                     speed = MAX_SPEED* unitSize/ 1000;
-                    speedUpLeftTime = GameConfig.SPEED_UP_TIME;
+                    leftTime = GameConfig.SPEED_UP_TIME;
                 }
             }
             break;
@@ -80,7 +87,20 @@ public class GameCalculator {
         return lv;
     }
 
-    public int calculateScore(int lineNum, int combo){
-        return (lineNum+2)*(lineNum+3)*combo;
+    public int calculateScore(int lineNum, int lv){
+        switch (lineNum){
+            case 1:
+               return lv;
+            case 2:
+                return lv*8;
+            case 3:
+                return lv*27;
+            case 4:
+                return lv*64;
+            default:
+                return 0;
+        }
     }
+
+    protected abstract void onAddLine();
 }

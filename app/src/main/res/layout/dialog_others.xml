@@ -12,9 +12,7 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:id="@+id/ll_volume"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -29,6 +27,124 @@
             android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_toggle_btns"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:padding="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_button_layout" />
+
+            <TextView
+                android:id="@+id/tv_toggle_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="@string/toggle_layout"
+                android:textColor="#c49f05"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <RelativeLayout
+                android:id="@+id/btn_layout1"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_margin="5dp"
+                    android:id="@+id/iv_btn_l"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_btn_left"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+                <ImageView
+                    android:layout_margin="5dp"
+                    android:id="@+id/iv_btn_r"
+                    android:layout_toRightOf="@+id/iv_btn_l"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_btn_right"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="-15dp"
+                    android:layout_alignTop="@+id/iv_btn_r"
+                    android:layout_toRightOf="@+id/iv_btn_r"
+                    android:src="@drawable/ic_btn_rotate"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="-10dp"
+                    android:layout_alignBottom="@+id/iv_btn_r"
+                    android:layout_toRightOf="@+id/iv_btn_r"
+                    android:src="@drawable/ic_btn_fastdrop"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/btn_layout2"
+                android:alpha="0.3"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/ic_btn_left"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/ic_btn_right"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/ic_btn_rotate"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/ic_btn_fastdrop"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+
 
     </LinearLayout>
 

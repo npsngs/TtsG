@@ -2,6 +2,8 @@ package com.grumpycat.tetrisgame.nodes;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -16,6 +18,30 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class SceneNode implements GameNode , TetrisContainer{
+    private static final int[][] RANDOM_ADD_LINES= {
+            {0,0,1,1,1,1,1,0,0,0},
+            {1,0,0,1,1,1,0,1,1,0},
+            {0,1,1,0,0,1,0,0,1,1},
+            {1,0,1,1,0,0,1,1,1,1},
+            {1,1,0,1,1,0,0,1,1,1},
+            {0,1,1,1,1,1,0,0,1,0},
+            {1,1,1,1,1,1,1,1,0,0},
+            {1,1,1,1,1,1,0,0,0,1},
+            {1,1,0,0,0,0,1,1,1,1},
+            {0,1,0,0,1,0,0,1,0,1},
+            {1,0,1,0,1,0,1,0,0,0},
+            {1,0,0,0,1,0,0,0,1,1},
+            {1,1,1,1,0,1,1,1,1,1},
+            {1,1,1,1,1,0,1,1,1,1},
+            {1,1,1,1,1,1,1,0,1,1},
+            {1,1,1,0,1,1,1,1,1,1},
+            {1,1,0,1,1,1,1,1,1,1},
+            {1,1,0,1,1,1,1,1,1,1},
+            {0,0,0,0,1,0,0,0,0,0},
+            {0,0,0,0,1,1,0,1,0,0},
+            {0,0,0,0,1,0,1,0,0,0},
+            {0,1,0,0,1,0,0,0,0,0},
+    };
     private float unitSize;
     private float unitMargin;
 
@@ -36,6 +62,9 @@ public class SceneNode implements GameNode , TetrisContainer{
         unitRect = new RectF();
         unitMap = AppCache.getUnitBitmaps();
         unitPaint = new Paint();
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0.75f);
+        unitPaint.setColorFilter(new ColorMatrixColorFilter(cm));
         realFrame = new RectF();
         frameRect = new Rect(-1, -1, -1, -1);
         gridLinePaint = new Paint();
@@ -111,6 +140,11 @@ public class SceneNode implements GameNode , TetrisContainer{
                }
            }
         }
+    }
+
+    public void addRandomLine(int factor){
+        int index = factor%RANDOM_ADD_LINES.length;
+        unitMatrix.addBottomLine(RANDOM_ADD_LINES[index]);
     }
 
     public void initWithFrame(Rect frame){

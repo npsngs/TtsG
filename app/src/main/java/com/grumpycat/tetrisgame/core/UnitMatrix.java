@@ -12,6 +12,8 @@ public class UnitMatrix {
     public static final int WALL_R = -3;
     public static final int WALL_T = -4;
     public static final int WALL_B = -5;
+    public static final int NEW_ADD = 7;
+
     private int [][] units;
     private int row;
     private int column;
@@ -95,6 +97,35 @@ public class UnitMatrix {
                 }
             }
         }
+    }
+
+    public void addBottomLine(int[] values){
+        for(int i=1;i<row;i++){
+            moveLine(i, i-1);
+        }
+        for(int[] ids:validUnits){
+            ids[1]--;
+        }
+
+        int y = row-1;
+        for(int x = 0; x< column;x++){
+            if(x<values.length){
+                if(values[x]==1){
+                    units[x][y] = NEW_ADD;
+                    int[] index = IndexCache.getIndex();
+                    index[0] = x;
+                    index[1] = y;
+                    validUnits.add(index);
+                }else{
+                    units[x][y] = NULL;
+                }
+            }else{
+                units[x][y] = NULL;
+            }
+        }
+
+
+
     }
 
     private void addAllIndex(int line){

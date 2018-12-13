@@ -68,23 +68,27 @@ public class OpDetector {
         long getInterval();
     }
 
-    private class SpeedUpController implements OpController{
-        private final long MIN_INTERVAL = 30L;
-        private final long INIT_INTERVAL = 120L;
+    private static class SpeedUpController implements OpController{
+        private static final long MIN_INTERVAL = 30L;
+        private static final long[] INTERVALS = {
+                140L, 110L, 70L, MIN_INTERVAL
+        };
         private long interval;
+        private int count;
         @Override
         public void onOp() {
-            if(interval != MIN_INTERVAL){
-                interval -= 40L;
-                if(interval < MIN_INTERVAL){
-                    interval = MIN_INTERVAL;
-                }
+            count++;
+            if(count < INTERVALS.length){
+                interval = INTERVALS[count];
+            }else {
+                interval = MIN_INTERVAL;
             }
         }
 
         @Override
         public void onStart() {
-            interval = INIT_INTERVAL;
+            count = 0;
+            interval = INTERVALS[0];
         }
 
         @Override

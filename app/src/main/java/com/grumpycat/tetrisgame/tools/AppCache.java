@@ -20,20 +20,22 @@ public class AppCache {
     private static Typeface tf;
     private static float density;
     private static float scaledDensity;
+    private static boolean isBtnsLayoutDefault;
     private static Context app;
     public static void preload(Context context){
         if (hasLoaded)
             return;
         app = context.getApplicationContext();
         Resources res = context.getResources();
-        unitBitmaps = new Bitmap[7];
+        unitBitmaps = new Bitmap[8];
         unitBitmaps[0] = BitmapFactory.decodeResource(res, R.drawable.tetris_unit11);
         unitBitmaps[1] = BitmapFactory.decodeResource(res, R.drawable.tetris_unit12);
         unitBitmaps[2] = BitmapFactory.decodeResource(res, R.drawable.tetris_unit13);
         unitBitmaps[3] = BitmapFactory.decodeResource(res, R.drawable.tetris_unit14);
         unitBitmaps[4] = BitmapFactory.decodeResource(res, R.drawable.tetris_unit15);
-        unitBitmaps[5] = BitmapFactory.decodeResource(res, R.drawable.tetris_unit11);
-        unitBitmaps[6] = BitmapFactory.decodeResource(res, R.drawable.tetris_unit12);
+        unitBitmaps[5] = unitBitmaps[0];
+        unitBitmaps[6] = unitBitmaps[1];
+        unitBitmaps[7] = BitmapFactory.decodeResource(res, R.drawable.tetris_unit13);
         shadow = BitmapFactory.decodeResource(res, R.drawable.tetris_shadow);
         density = res.getDisplayMetrics().density;
         scaledDensity = res.getDisplayMetrics().scaledDensity;
@@ -42,10 +44,9 @@ public class AppCache {
 
         sp = context.getSharedPreferences("records", Context.MODE_PRIVATE);
         volume = sp.getFloat("volume", 1.0f);
+        isBtnsLayoutDefault = sp.getBoolean("btns_default", true);
         unitMargin = res.getDimension(R.dimen.unit_margin);
         hasLoaded = true;
-
-
 
     }
 
@@ -70,6 +71,15 @@ public class AppCache {
         sp.edit().putFloat("volume", volume).apply();
     }
 
+    public static boolean isBtnsLayoutDefault() {
+        return isBtnsLayoutDefault;
+    }
+
+    public static void setBtnsLayoutDefault(boolean isBtnsLayoutDefault) {
+        AppCache.isBtnsLayoutDefault = isBtnsLayoutDefault;
+        sp.edit().putBoolean("btns_default", isBtnsLayoutDefault).apply();
+    }
+
     public static Typeface getTypeface() {
         return tf;
     }
@@ -80,10 +90,6 @@ public class AppCache {
 
     public static float getScaledDensity() {
         return scaledDensity;
-    }
-
-    public static Bitmap loadBitmap(int resId){
-        return BitmapFactory.decodeResource(app.getResources(), resId);
     }
 
     public static Drawable loadDrawable(int resId){

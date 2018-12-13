@@ -134,65 +134,14 @@
 
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_toRightOf="@id/ll_tetris"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/ll_info"
         android:layout_alignParentBottom="true"
-        android:layout_width="0dp"
-        android:layout_height="0dp">
+        android:orientation="horizontal"
+        android:layout_below="@+id/ll_tetris"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:paddingTop="10dp"
-            android:gravity="center"
-            android:id="@+id/btn_rotate"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <ImageView
-                android:duplicateParentState="true"
-                android:background="@drawable/sl_btn_rotate"
-                android:layout_width="80dp"
-                android:layout_height="80dp" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:gravity="center"
-            android:id="@+id/btn_fastdrop"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <ImageView
-                android:duplicateParentState="true"
-                android:background="@drawable/sl_btn_fastdrop"
-                android:layout_width="80dp"
-                android:layout_height="80dp" />
-        </LinearLayout>
-    </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-    <LinearLayout
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/ll_tetris"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@id/ll_tetris"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="horizontal">
-
-
-        <LinearLayout
             android:gravity="center"
             android:id="@+id/btn_left"
             android:orientation="vertical"
@@ -203,12 +152,13 @@
                 android:id="@+id/iv_btn_left"
                 android:duplicateParentState="true"
                 android:src="@drawable/ic_btn_left"
-                android:layout_width="80dp"
-                android:layout_height="80dp" />
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
         </LinearLayout>
 
 
         <LinearLayout
+            android:paddingTop="10dp"
             android:gravity="center"
             android:id="@+id/btn_right"
             android:orientation="vertical"
@@ -219,8 +169,37 @@
                 android:id="@+id/iv_btn_right"
                 android:duplicateParentState="true"
                 android:src="@drawable/ic_btn_right"
-                android:layout_width="80dp"
-                android:layout_height="80dp" />
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:id="@+id/btn_rotate"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:duplicateParentState="true"
+                android:background="@drawable/sl_btn_rotate"
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:gravity="center"
+            android:id="@+id/btn_fastdrop"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:duplicateParentState="true"
+                android:background="@drawable/sl_btn_fastdrop"
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

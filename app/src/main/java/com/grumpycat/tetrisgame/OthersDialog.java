@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.grumpycat.tetrisgame.tools.VolumeView;
 
 public class OthersDialog extends Dialog{
     private VolumeView vv;
+    private View btn_layout1,btn_layout2;
     public OthersDialog(@NonNull Context context) {
         super(context, R.style.tetris_dialog);
     }
@@ -47,7 +49,31 @@ public class OthersDialog extends Dialog{
         tv_studio.setTypeface(tf);
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        btn_layout1 = findViewById(R.id.btn_layout1);
+        btn_layout2 = findViewById(R.id.btn_layout2);
+        if(AppCache.isBtnsLayoutDefault()){
+            btn_layout1.setAlpha(1.0f);
+            btn_layout2.setAlpha(0.3f);
+        }else{
+            btn_layout1.setAlpha(0.3f);
+            btn_layout2.setAlpha(1.0f);
+        }
 
-
+        TextView tv_toggle_btns = findViewById(R.id.tv_toggle_btn);
+        tv_toggle_btns.setTypeface(tf);
+        findViewById(R.id.ll_toggle_btns).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!AppCache.isBtnsLayoutDefault()){
+                    AppCache.setBtnsLayoutDefault(true);
+                    btn_layout1.setAlpha(1.0f);
+                    btn_layout2.setAlpha(0.3f);
+                }else{
+                    AppCache.setBtnsLayoutDefault(false);
+                    btn_layout1.setAlpha(0.3f);
+                    btn_layout2.setAlpha(1.0f);
+                }
+            }
+        });
     }
 }

@@ -3,4 +3,6 @@
     <string name="highest_score">The highest score you get</string>
     <string name="highest_almost">Almost broke the highest</string>
     <string name="whack">Out of whack, Come on</string>
+    <string name="toggle_layout">Toggle button layout</string>
+    <string name="ranks">Ranking</string>
 </resources>

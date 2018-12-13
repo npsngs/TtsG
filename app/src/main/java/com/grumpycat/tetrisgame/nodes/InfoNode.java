@@ -13,28 +13,47 @@ public class InfoNode implements GameNode {
     private Paint paint;
     private boolean isShow = false;
     private String str;
-    private float offsetX = 0f;
     private float y;
     private long time;
     private long MAX_TIME;
     private float MAX_DY;
     private float fraction;
+    private float textSize;
     public InfoNode() {
         MAX_TIME = GameConfig.SCORE_SHOW_TIME+ANIM_TIME;
         paint = new Paint();
         paint.setColor(0xfffefefe);
         paint.setAntiAlias(true);
         MAX_DY = CommonTools.dp2px(30, AppCache.getDensity());
-        paint.setTextSize(CommonTools.sp2px(36f, AppCache.getScaledDensity()));
+        textSize = CommonTools.sp2px(36f, AppCache.getScaledDensity());
+        paint.setTextSize(textSize);
         paint.setTypeface(AppCache.getTypeface());
     }
 
-    public void show(int addScore, float y){
+    public void show(int addScore, int lines, float y){
         time = 0;
         isShow = true;
         str = "+"+addScore;
         this.y = y;
         fraction = 0f;
+        switch (lines){
+            case 1:
+                paint.setColor(0xfffefefe);
+                paint.setTextSize(textSize);
+                break;
+            case 2:
+                paint.setColor(0xfffefefe);
+                paint.setTextSize(textSize*1.2f);
+                break;
+            case 3:
+                paint.setColor(0xfffefefe);
+                paint.setTextSize(textSize*1.5f);
+                break;
+            case 4:
+                paint.setColor(0xffffb400);
+                paint.setTextSize(textSize*2f);
+                break;
+        }
     }
 
     public boolean isShow() {
@@ -47,7 +66,7 @@ public class InfoNode implements GameNode {
             canvas.save();
             canvas.translate(0, -fraction*MAX_DY);
             paint.setAlpha((int) ((1f-fraction)*255));
-            canvas.drawText(str, frame.centerX() - offsetX, y, paint);
+            canvas.drawText(str, frame.centerX(), y, paint);
             canvas.restore();
         }
     }

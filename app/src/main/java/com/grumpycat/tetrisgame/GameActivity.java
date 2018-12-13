@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.baidu.mobstat.StatService;
 import com.grumpycat.tetrisgame.core.Director;
 import com.grumpycat.tetrisgame.core.UICallback;
 import com.grumpycat.tetrisgame.core.UIHandler;
@@ -34,7 +33,9 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
-        setContentView(R.layout.activity_game);
+        setContentView(AppCache.isBtnsLayoutDefault()?
+                R.layout.activity_game:
+                R.layout.activity_game2);
         init();
         measureViews();
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -72,7 +73,7 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
         findViewById(R.id.btn_pause).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StatService.onEvent(getApplicationContext(), "pause", "BtnPress");
+                //StatService.onEvent(getApplicationContext(), "pause", "BtnPress");
                 pauseGame();
             }
         });
@@ -193,8 +194,8 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
         if (score > bestHistory){
             sp.edit().putInt("bestHistory", score).apply();
         }
-        StatService.onEvent(this, "achieve_level", level+"");
-        StatService.onEvent(this, "pause", "GameOver");
+        //StatService.onEvent(this, "achieve_level", level+"");
+        //StatService.onEvent(this, "pause", "GameOver");
         if(gameOverDialog == null){
             gameOverDialog = new GameOverDialog(this, bestHistory, score) {
                 @Override
@@ -255,7 +256,7 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
             super.onBackPressed();
         }else{
             pauseGame();
-            StatService.onEvent(this, "pause", "BackPress");
+            //StatService.onEvent(this, "pause", "BackPress");
         }
     }
 
@@ -274,7 +275,7 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
                 protected void saveAndExit() {
                     dismiss();
                     Director.getInstance().save(getApplicationContext());
-                    StatService.onEvent(getContext(), "save_game", "save");
+                    //StatService.onEvent(getContext(), "save_game", "save");
                     finish();
                 }
 
