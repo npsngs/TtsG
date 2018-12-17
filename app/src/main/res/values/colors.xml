@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="hint_text">#8E781A</color>
+    <color name="divider">#7B6818</color>
     <color name="game_info_text">#E1E1E1</color>
     <color name="transparent">#00000000</color>
 </resources>

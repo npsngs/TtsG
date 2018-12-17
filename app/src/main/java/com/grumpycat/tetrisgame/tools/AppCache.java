@@ -1,12 +1,16 @@
 package com.grumpycat.tetrisgame.tools;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IdRes;
+import android.widget.TextView;
 
 import com.grumpycat.tetrisgame.R;
 
@@ -80,8 +84,17 @@ public class AppCache {
         sp.edit().putBoolean("btns_default", isBtnsLayoutDefault).apply();
     }
 
-    public static Typeface getTypeface() {
-        return tf;
+    public static void setTypeface(TextView tv) {
+        tv.setTypeface(tf);
+    }
+
+    public static void setTypeface(Paint paint) {
+        paint.setTypeface(tf);
+    }
+
+    public static void setTypeface(@IdRes int tvId, Activity activity) {
+        TextView tv = activity.findViewById(tvId);
+        setTypeface(tv);
     }
 
     public static float getDensity() {

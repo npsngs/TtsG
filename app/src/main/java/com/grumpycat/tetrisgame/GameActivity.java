@@ -1,7 +1,6 @@
 package com.grumpycat.tetrisgame;
 
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ import com.grumpycat.tetrisgame.core.UICallback;
 import com.grumpycat.tetrisgame.core.UIHandler;
 import com.grumpycat.tetrisgame.tools.AppCache;
 import com.grumpycat.tetrisgame.tools.CommonTools;
+import com.grumpycat.tetrisgame.tools.EventLog;
 import com.grumpycat.tetrisgame.tools.NextView;
 import com.grumpycat.tetrisgame.tools.OpDetector;
 import com.grumpycat.tetrisgame.tools.SoundManager;
@@ -73,7 +73,7 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
         findViewById(R.id.btn_pause).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //StatService.onEvent(getApplicationContext(), "pause", "BtnPress");
+                EventLog.logClick("pause by btn");
                 pauseGame();
             }
         });
@@ -82,8 +82,6 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
         btn_right = findViewById(R.id.iv_btn_right);
         findViewById(R.id.btn_left).setOnTouchListener(this);
         findViewById(R.id.btn_right).setOnTouchListener(this);
-
-        Typeface tf = AppCache.getTypeface();
 
         tv_line = findViewById(R.id.tv_line);
         tv_score = findViewById(R.id.tv_score);
@@ -94,13 +92,13 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
         TextView tv_score_label = findViewById(R.id.tv_score_label);
         TextView tv_next_label = findViewById(R.id.tv_next_label);
 
-        tv_line.setTypeface(tf);
-        tv_score.setTypeface(tf);
-        tv_lvl.setTypeface(tf);
-        tv_line_label.setTypeface(tf);
-        tv_level_label.setTypeface(tf);
-        tv_score_label.setTypeface(tf);
-        tv_next_label.setTypeface(tf);
+        AppCache.setTypeface(tv_line);
+        AppCache.setTypeface(tv_score);
+        AppCache.setTypeface(tv_lvl);
+        AppCache.setTypeface(tv_line_label);
+        AppCache.setTypeface(tv_level_label);
+        AppCache.setTypeface(tv_score_label);
+        AppCache.setTypeface(tv_next_label);
 
         nextView = findViewById(R.id.next_view);
 
@@ -145,6 +143,12 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
 
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        EventLog.init(this);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         director.stop();
@@ -165,10 +169,8 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
         nextView.setMode(mode);
     }
 
-    private int level;
     @Override
     public void onLvlUp(int lvl) {
-        level = lvl;
         tv_lvl.setText(lvl+"");
     }
 
@@ -194,20 +196,20 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
         if (score > bestHistory){
             sp.edit().putInt("bestHistory", score).apply();
         }
-        //StatService.onEvent(this, "achieve_level", level+"");
-        //StatService.onEvent(this, "pause", "GameOver");
         if(gameOverDialog == null){
             gameOverDialog = new GameOverDialog(this, bestHistory, score) {
                 @Override
                 protected void restartGame() {
                     dismiss();
                     director.restart();
+                    EventLog.logClick("restart");
                 }
 
                 @Override
                 protected void exitGame() {
                     dismiss();
                     finish();
+                    EventLog.logClick("exit when game over");
                 }
             };
             gameOverDialog.setCancelable(false);
@@ -256,7 +258,7 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
             super.onBackPressed();
         }else{
             pauseGame();
-            //StatService.onEvent(this, "pause", "BackPress");
+            EventLog.logClick("pause by backPress");
         }
     }
 
@@ -275,7 +277,7 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
                 protected void saveAndExit() {
                     dismiss();
                     Director.getInstance().save(getApplicationContext());
-                    //StatService.onEvent(getContext(), "save_game", "save");
+                    EventLog.logClick("save and exit");
                     finish();
                 }
 
@@ -283,6 +285,7 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
                 protected void exitGame() {
                     dismiss();
                     finish();
+                    EventLog.logClick("exit when pause");
                 }
             };
             pauseDialog.setCancelable(false);

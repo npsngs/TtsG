@@ -26,7 +26,7 @@ public class ComboNode implements GameNode ,IJsonData {
         paint.setColor(0xfff3f3f3);
         paint.setAntiAlias(true);
         paint.setTextSize(CommonTools.sp2px(12f, AppCache.getScaledDensity()));
-        paint.setTypeface(AppCache.getTypeface());
+        AppCache.setTypeface(paint);
 
         float density = AppCache.getDensity();
         padding = density;

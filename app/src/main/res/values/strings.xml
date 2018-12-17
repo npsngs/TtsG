@@ -5,4 +5,19 @@
     <string name="whack">Out of whack, Come on</string>
     <string name="toggle_layout">Toggle button layout</string>
     <string name="ranks">Ranking</string>
+    <string name="score_fmt">score:%1$d</string>
+    <string name="info_fmt">lines:%1$d        level:%2$d        %3$s</string>
+    <string name="ranking_btn">RANKING</string>
+    <string name="start_game_btn">START NEW GAME</string>
+    <string name="continue_btn">CONTINUE LAST GAME</string>
+    <string name="others_btn">OTHERS</string>
+    <string name="next">next</string>
+    <string name="line">lines</string>
+    <string name="lvl">level</string>
+    <string name="score">score</string>
+    <string name="game_pause">Game Paused</string>
+    <string name="game_continue">CONTINUE GAME</string>
+    <string name="game_save_exit">SAVE &amp; EXIT</string>
+    <string name="game_exit">EXIT</string>
+
 </resources>

@@ -24,7 +24,7 @@ public class CountDownNode implements GameNode {
         paint.setColor(0xffffef8f);
         paint.setAntiAlias(true);
         paint.setTextSize(CommonTools.sp2px(70f, AppCache.getScaledDensity()));
-        paint.setTypeface(AppCache.getTypeface());
+        AppCache.setTypeface(paint);
         offset = paint.measureText("2")/3;
     }
 

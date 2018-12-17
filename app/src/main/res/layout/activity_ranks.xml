@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,12 +11,13 @@
         <ImageView
             android:id="@+id/iv_back"
             android:src="@drawable/sl_back_btn"
-            android:padding="15dp"
+            android:padding="18dp"
             android:layout_width="50dp"
             android:layout_height="50dp" />
 
         <TextView
-            android:layout_marginLeft="10dp"
+            android:paddingTop="2dp"
+            android:id="@+id/tv_title"
             android:layout_toRightOf="@+id/iv_back"
             android:layout_centerVertical="true"
             android:text="@string/ranks"
@@ -25,7 +27,21 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
     <ListView
+        android:layout_weight="1"
         android:id="@+id/lv"
+        android:padding="10dp"
+        android:divider="@color/divider"
+        android:dividerHeight="0.5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"/>
+
+    <com.google.android.gms.ads.AdView
+        android:layout_marginLeft="20dp"
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-6724294817972520/5752445431">
+    </com.google.android.gms.ads.AdView>
 </LinearLayout>

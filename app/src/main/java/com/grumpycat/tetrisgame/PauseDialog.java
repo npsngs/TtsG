@@ -2,7 +2,6 @@ package com.grumpycat.tetrisgame;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,11 +35,10 @@ public abstract class PauseDialog extends Dialog implements View.OnClickListener
         TextView btn_save_exit = findViewById(R.id.btn_save_exit);
         TextView btn_exit = findViewById(R.id.btn_exit);
 
-        Typeface tf = AppCache.getTypeface();
-        tv_title.setTypeface(tf);
-        btn_continue.setTypeface(tf);
-        btn_save_exit.setTypeface(tf);
-        btn_exit.setTypeface(tf);
+        AppCache.setTypeface(tv_title);
+        AppCache.setTypeface(btn_continue);
+        AppCache.setTypeface(btn_save_exit);
+        AppCache.setTypeface(btn_exit);
 
         btn_continue.setOnClickListener(this);
         btn_exit.setOnClickListener(this);

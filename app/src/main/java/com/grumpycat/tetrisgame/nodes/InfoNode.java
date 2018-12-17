@@ -27,7 +27,7 @@ public class InfoNode implements GameNode {
         MAX_DY = CommonTools.dp2px(30, AppCache.getDensity());
         textSize = CommonTools.sp2px(36f, AppCache.getScaledDensity());
         paint.setTextSize(textSize);
-        paint.setTypeface(AppCache.getTypeface());
+        AppCache.setTypeface(paint);
     }
 
     public void show(int addScore, int lines, float y){

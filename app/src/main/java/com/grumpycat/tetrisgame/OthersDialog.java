@@ -2,7 +2,6 @@ package com.grumpycat.tetrisgame;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,11 +12,13 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.grumpycat.tetrisgame.tools.AppCache;
+import com.grumpycat.tetrisgame.tools.EventLog;
 import com.grumpycat.tetrisgame.tools.VolumeView;
 
 public class OthersDialog extends Dialog{
     private VolumeView vv;
     private View btn_layout1,btn_layout2;
+    private boolean hasChangeVolume = false;
     public OthersDialog(@NonNull Context context) {
         super(context, R.style.tetris_dialog);
     }
@@ -42,11 +43,12 @@ public class OthersDialog extends Dialog{
             @Override
             public void onProgressChange(float progress) {
                 AppCache.setVolume(progress);
+                hasChangeVolume = true;
             }
         });
-        Typeface tf = AppCache.getTypeface();
-        tv_email.setTypeface(tf);
-        tv_studio.setTypeface(tf);
+
+        AppCache.setTypeface(tv_email);
+        AppCache.setTypeface(tv_studio);
 
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         btn_layout1 = findViewById(R.id.btn_layout1);
@@ -60,7 +62,7 @@ public class OthersDialog extends Dialog{
         }
 
         TextView tv_toggle_btns = findViewById(R.id.tv_toggle_btn);
-        tv_toggle_btns.setTypeface(tf);
+        AppCache.setTypeface(tv_toggle_btns);
         findViewById(R.id.ll_toggle_btns).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,12 +70,22 @@ public class OthersDialog extends Dialog{
                     AppCache.setBtnsLayoutDefault(true);
                     btn_layout1.setAlpha(1.0f);
                     btn_layout2.setAlpha(0.3f);
+                    EventLog.logClick("toggle default btns");
                 }else{
                     AppCache.setBtnsLayoutDefault(false);
                     btn_layout1.setAlpha(0.3f);
                     btn_layout2.setAlpha(1.0f);
+                    EventLog.logClick("toggle linear btns");
                 }
             }
         });
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        if(hasChangeVolume){
+            EventLog.logClick("change volume");
+        }
     }
 }

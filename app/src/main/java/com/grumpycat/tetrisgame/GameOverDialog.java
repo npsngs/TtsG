@@ -2,7 +2,6 @@ package com.grumpycat.tetrisgame;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,13 +43,12 @@ public abstract class GameOverDialog extends Dialog implements View.OnClickListe
         TextView btn_exit = findViewById(R.id.btn_exit);
 
 
-
-        Typeface tf = AppCache.getTypeface();
-        tv_title.setTypeface(tf);
-        btn_restart.setTypeface(tf);
-        tv_score.setTypeface(tf);
-        btn_exit.setTypeface(tf);
-        tv_label_score.setTypeface(tf);
+        AppCache.setTypeface(tv_title);
+        AppCache.setTypeface(btn_restart);
+        AppCache.setTypeface(tv_score);
+        AppCache.setTypeface(btn_exit);
+        AppCache.setTypeface(tv_title);
+        AppCache.setTypeface(tv_label_score);
 
         btn_restart.setOnClickListener(this);
         btn_exit.setOnClickListener(this);

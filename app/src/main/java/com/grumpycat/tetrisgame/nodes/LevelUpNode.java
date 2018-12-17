@@ -42,7 +42,7 @@ public class LevelUpNode implements GameNode {
         paint.setColor(0xffffce00);
         paint.setAntiAlias(true);
         paint.setTextSize(CommonTools.sp2px(40f, AppCache.getScaledDensity()));
-        paint.setTypeface(AppCache.getTypeface());
+        AppCache.setTypeface(paint);
         offsetText = paint.measureText("level up")/2;
     }
 

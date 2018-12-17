@@ -14,7 +14,7 @@
         android:textColor="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Game Paused"/>
+        android:text="@string/game_pause"/>
 
         <LinearLayout
             android:paddingRight="50dp"
@@ -27,7 +27,7 @@
                 android:background="@drawable/sl_btn_bg"
                 android:id="@+id/btn_continue"
                 style="@style/game_text_style"
-                android:text="CONTINUE GAME"
+                android:text="@string/game_continue"
                 android:layout_width="match_parent"
                 android:layout_height="45dp" />
             <TextView
@@ -35,7 +35,7 @@
                 android:background="@drawable/sl_btn_bg"
                 android:id="@+id/btn_save_exit"
                 style="@style/game_text_style"
-                android:text="SAVE &amp; EXIT"
+                android:text="@string/game_save_exit"
                 android:layout_width="match_parent"
                 android:layout_height="45dp" />
             <TextView
@@ -43,7 +43,7 @@
                 android:background="@drawable/sl_btn_bg"
                 android:id="@+id/btn_exit"
                 style="@style/game_text_style"
-                android:text="EXIT"
+                android:text="@string/game_exit"
                 android:layout_width="match_parent"
                 android:layout_height="45dp" />
         </LinearLayout>

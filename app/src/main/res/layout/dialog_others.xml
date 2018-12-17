@@ -52,6 +52,7 @@
                 android:src="@drawable/ic_button_layout" />
 
             <TextView
+                android:paddingTop="2dp"
                 android:id="@+id/tv_toggle_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

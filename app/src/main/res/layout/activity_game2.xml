@@ -57,7 +57,7 @@
                 style="@style/game_info_label_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="next"/>
+                android:text="@string/next"/>
 
             <com.grumpycat.tetrisgame.tools.NextView
                 android:id="@+id/next_view"
@@ -79,7 +79,7 @@
                 style="@style/game_info_label_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="score"/>
+                android:text="@string/score"/>
             <TextView
                 style="@style/game_info_text_style"
                 android:id="@+id/tv_score"
@@ -100,7 +100,7 @@
                 style="@style/game_info_label_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="line"/>
+                android:text="@string/line"/>
             <TextView
                 style="@style/game_info_text_style"
                 android:id="@+id/tv_line"
@@ -122,7 +122,7 @@
                 style="@style/game_info_label_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="level"/>
+                android:text="@string/lvl"/>
             <TextView
                 style="@style/game_info_text_style"
                 android:id="@+id/tv_lv"
