@@ -6,9 +6,9 @@ import com.grumpycat.tetrisgame.core.UnitMatrix;
 import com.grumpycat.tetrisgame.nodes.TetrisNode;
 
 /**
- *     o
- *    ooo
- *
+    ***    *     *    *
+     *    **    ***   **
+           *          *
  */
 public class Tetris0 extends TetrisNode {
     public Tetris0(float unitSize, float unitMargin, RectF realFrame) {
@@ -23,11 +23,6 @@ public class Tetris0 extends TetrisNode {
     @Override
     protected void onInit() {
         offsetX = 3;
-        unitMatrix.clear();
-        unitMatrix.set(0, 1, 0);
-        unitMatrix.set(1, 1, 0);
-        unitMatrix.set(2, 1, 0);
-        unitMatrix.set(1, 2, 0);
     }
 
     @Override
@@ -67,51 +62,44 @@ public class Tetris0 extends TetrisNode {
     }
 
     @Override
-    public boolean reviseWhenCollide(int x, int y, int[] out) {
-        out[0] = 0;
-        out[1] = 0;
-        if(x == 1 && y == 1){
-            return false;
+    public void calculateShadowY(UnitMatrix matrix) {
+        int ofsX = offsetX;
+        int ofsY = offsetY;
+        if(dropY > 0){
+            ofsY++;
         }
 
-        switch (direction){
-            case 0:
-                if(y == 2){
-                    out[1] = -1;
-                }else if(x == 0){
-                    out[0] = 1;
-                }else if(x == 2){
-                    out[0] = -1;
-                }
-                break;
-            case 1:
-                if(x == 0){
-                    out[0] = 1;
-                }else if(y == 2){
-                    out[1] = -1;
-                }else {
-                    return false;
-                }
-                break;
-            case 2:
-                if(x == 0){
-                    out[0] = 1;
-                } else if(x == 2){
-                    out[0] = -1;
-                } else {
-                    return false;
-                }
-                break;
-            case 3:
-                if(x == 2){
-                    out[0] = -1;
-                }else if(y == 2){
-                    out[1] = -1;
-                }else{
-                    return false;
-                }
-                break;
-        }
-        return true;
+        do {
+            switch (direction){
+                case 0:
+                    if(matrix.get(ofsX+1, ofsY+2) != UnitMatrix.NULL ||
+                            matrix.get(ofsX, ofsY+1) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+2, ofsY+1) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+                case 1:
+                    if(matrix.get(ofsX, ofsY+1) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+1, ofsY+2) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+                case 2:
+                    if(matrix.get(ofsX, ofsY+1) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+1, ofsY+1) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+2, ofsY+1) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+                case 3:
+                    if(matrix.get(ofsX+1, ofsY+2) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+2, ofsY+1) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+            }
+            ofsY++;
+        }while (true);
     }
+
 }

@@ -9,7 +9,7 @@
     <string name="info_fmt">lines:%1$d        level:%2$d        %3$s</string>
     <string name="ranking_btn">RANKING</string>
     <string name="start_game_btn">START NEW GAME</string>
-    <string name="continue_btn">CONTINUE LAST GAME</string>
+    <string name="continue_btn">CONTINUE GAME</string>
     <string name="others_btn">OTHERS</string>
     <string name="next">next</string>
     <string name="line">lines</string>

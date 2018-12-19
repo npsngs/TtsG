@@ -47,7 +47,6 @@ public class RankActivity extends Activity {
         adapter = new RankAdapter();
         lv.setAdapter(adapter);
 
-        MobileAds.initialize(this, "ca-app-pub-6724294817972520~7263293066");
         mAdView = findViewById(R.id.adView);
         mAdView.loadAd(new AdRequest
                 .Builder()

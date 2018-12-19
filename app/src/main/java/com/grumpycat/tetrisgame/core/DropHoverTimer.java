@@ -5,8 +5,14 @@ import com.grumpycat.tetrisgame.GameConfig;
 public class DropHoverTimer {
     private long hoverTime;
     private long addTimes;
-    public void startTimer(){
-        hoverTime = GameConfig.DROP_HOVER_TIME;
+    private boolean isNeedExtend;
+    public void startTimer(boolean isNeedExtend){
+        this.isNeedExtend = isNeedExtend;
+        if(isNeedExtend){
+            hoverTime = GameConfig.DROP_HOVER_TIME_EXT;
+        }else{
+            hoverTime = GameConfig.DROP_HOVER_TIME;
+        }
         addTimes = GameConfig.DROP_HOVER_ADD_TIMES;
     }
 
@@ -17,7 +23,11 @@ public class DropHoverTimer {
     public void restartTimer(){
         if(addTimes > 0){
             addTimes--;
-            hoverTime = GameConfig.DROP_HOVER_ADD_TIME;
+            if(isNeedExtend) {
+                hoverTime = GameConfig.DROP_HOVER_ADD_TIME_EXT;
+            }else{
+                hoverTime = GameConfig.DROP_HOVER_ADD_TIME;
+            }
         }
     }
 

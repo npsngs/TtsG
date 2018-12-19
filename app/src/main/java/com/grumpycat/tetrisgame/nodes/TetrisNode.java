@@ -14,6 +14,20 @@ import org.json.JSONObject;
 import java.util.List;
 
 public abstract class TetrisNode implements GameNode{
+    private static final int[][] reviseOffsets = {
+            {0, -1},
+            {1, 0},
+            {-1, 0},
+            {1, -1},
+            {-1, -1},
+            {0, -2},
+            {2, 0},
+            {-2, 0},
+            {2, -2},
+            {-2, -2},
+            {0, -3},
+            {0, 1}
+    };
     private float unitSize;
     private float unitMargin;
     protected UnitMatrix unitMatrix;
@@ -22,7 +36,7 @@ public abstract class TetrisNode implements GameNode{
 
     protected int offsetX = 0;
     protected int offsetY = 0;
-    private int shadowY;
+    protected int shadowY;
     protected float dropY = 0f;
     private Paint paint;
     private RectF unitRect;
@@ -32,8 +46,7 @@ public abstract class TetrisNode implements GameNode{
     protected abstract void onInit();
     public abstract void onDirectionChange(int direction);
     public abstract int getDirectionDimen();
-    public abstract boolean reviseWhenCollide(int x, int y, int[] out);
-
+    public abstract void calculateShadowY(UnitMatrix matrix);
     public TetrisNode(float unitSize, float unitMargin, RectF realFrame) {
         this.unitSize = unitSize;
         this.unitMargin = unitMargin;
@@ -43,7 +56,7 @@ public abstract class TetrisNode implements GameNode{
         unitRect = new RectF();
         unitMap = AppCache.getUnitBitmaps();
         unitMatrix = createUnitMatrix();
-        onInit();
+        reset();
     }
 
     public void initWithSize(float unitSize, float unitMargin, RectF realFrame) {
@@ -58,11 +71,12 @@ public abstract class TetrisNode implements GameNode{
     }
 
     public void reset(){
+        onInit();
         direction = 0;
         offsetY = 0;
         dropY = 0f;
         shadowY = -1;
-        onInit();
+        onDirectionChange(direction);
     }
 
     private int left, right;
@@ -83,19 +97,18 @@ public abstract class TetrisNode implements GameNode{
                     l = x;
                 }
 
+                float left = unitMargin+(x+offsetX)*unitSize;
+                float right = (x+offsetX+1)*unitSize-unitMargin;
+                float top = unitMargin+(y+offsetY)*unitSize;
+                float bottom = (y+offsetY+1)*unitSize-unitMargin;
                 if(shadowY > 0){
-                    unitRect.set(unitMargin+(x+offsetX)*unitSize,
-                            unitMargin+(y+shadowY)*unitSize,
-                            (x+offsetX+1)*unitSize-unitMargin,
-                            (y+shadowY+1)*unitSize-unitMargin);
-                    unitRect.offset(realFrame.left,realFrame.top);
+                    float offset = (shadowY-offsetY)*unitSize;
+                    unitRect.set(left, top, right, bottom);
+                    unitRect.offset(realFrame.left,realFrame.top+offset);
                     canvas.drawBitmap(AppCache.getShadow(), null, unitRect, paint);
                 }
 
-               unitRect.set(unitMargin+(x+offsetX)*unitSize,
-                       unitMargin+(y+offsetY)*unitSize,
-                       (x+offsetX+1)*unitSize-unitMargin,
-                       (y+offsetY+1)*unitSize-unitMargin);
+               unitRect.set(left, top, right, bottom);
                unitRect.offset(realFrame.left,realFrame.top+dropY);
                int mode = unitMatrix.get(x, y);
                canvas.drawBitmap(unitMap[mode], null ,unitRect , paint);
@@ -104,10 +117,6 @@ public abstract class TetrisNode implements GameNode{
            left = l+offsetX;
            right = r+offsetX+1;
        }
-    }
-
-    public void setShadowY(int shadowY) {
-        this.shadowY = shadowY;
     }
 
     public int getShadowY() {
@@ -122,13 +131,33 @@ public abstract class TetrisNode implements GameNode{
         return right;
     }
 
-    public void rotate(){
+    public boolean rotate(UnitMatrix matrix){
         int dimen = getDirectionDimen();
         if(dimen == 1)
-            return;
+            return true;
         direction++;
         direction = direction%getDirectionDimen();
         onDirectionChange(direction);
+        if(!onRotate(matrix)){
+            backwardRotate();
+            return false;
+        }
+        return true;
+    }
+
+    protected boolean onRotate(UnitMatrix matrix) {
+        if(!hasCollide(matrix, 0,0)){
+            return true;
+        }
+
+        for(int[] offset:reviseOffsets){
+            if(!hasCollide(matrix, offset[0], offset[1])){
+                offsetX += offset[0];
+                offsetY += offset[1];
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -163,6 +192,25 @@ public abstract class TetrisNode implements GameNode{
         offsetY = shadowY;
         dropY = 0;
     }
+
+    public boolean hasCollide(UnitMatrix matrix, int x, int y){
+        int ox = this.offsetX+x;
+        int oy = this.offsetY+y;
+        if(dropY > 0){
+            oy++;
+        }
+        List<int[]> indexs = unitMatrix.getValidUnits();
+        for(int[] index:indexs) {
+            int sx = ox + index[0];
+            int sy = oy + index[1];
+            int value = matrix.get(sx, sy);
+            if (value != UnitMatrix.NULL) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void setOffsetX(int offsetX) {
         this.offsetX = offsetX;

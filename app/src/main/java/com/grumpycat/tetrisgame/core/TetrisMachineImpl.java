@@ -208,7 +208,7 @@ public class TetrisMachineImpl extends TetrisMachine {
         uiCallback.onNextMode(modeGenerator.next());
         tetrisNode = tetrisGenerator.getTetrisNode(mode, sceneNode);
         tetrisNode.reset();
-        calculateShadowY();
+        tetrisNode.calculateShadowY(sceneNode.getUnitMatrix());
         count++;
     }
 
@@ -243,94 +243,11 @@ public class TetrisMachineImpl extends TetrisMachine {
         if(tetrisNode.getDirectionDimen() == 1)
             return;
 
-        if(!tryRotate()) {
-            tetrisNode.backwardRotate();
-        }else{
-            calculateShadowY();
+        if(tetrisNode.rotate(sceneNode.getUnitMatrix())) {
+            tetrisNode.calculateShadowY(sceneNode.getUnitMatrix());
             SoundManager.playClick();
         }
     }
-
-    private boolean tryRotate(){
-        tetrisNode.rotate();
-        UnitMatrix sceneMatrix = sceneNode.getUnitMatrix();
-        UnitMatrix tetrisMatrix = tetrisNode.getUnitMatrix();
-        int offsetX = tetrisNode.getOffsetX();
-        int offsetY = tetrisNode.getOffsetY();
-        if(tetrisNode.getDropY() > 0){
-            offsetY++;
-        }
-        List<int[]> indexs = tetrisMatrix.getValidUnits();
-        int[] revise = new int[2];
-        boolean hasCollide = false;
-        for(int[] index:indexs) {
-            int x = index[0];
-            int y = index[1];
-            int sx = offsetX + x;
-            int sy = offsetY + y;
-            int value = sceneMatrix.get(sx, sy);
-            if (value != UnitMatrix.NULL) {
-                hasCollide = true;
-                boolean isRevised = tetrisNode.reviseWhenCollide(x, y, revise);
-                if (isRevised && reviseRotate(revise)) {
-                    return true;
-                }
-            }
-        }
-        return !hasCollide;
-    }
-
-    private boolean reviseRotate(int[] offsets){
-        UnitMatrix sceneMatrix = sceneNode.getUnitMatrix();
-        UnitMatrix tetrisMatrix = tetrisNode.getUnitMatrix();
-        List<int[]> indexs = tetrisMatrix.getValidUnits();
-        int offsetX = tetrisNode.getOffsetX();
-        int offsetY = tetrisNode.getOffsetY();
-        if(tetrisNode.getDropY() > 0){
-            offsetY++;
-        }
-        for(int[] index:indexs) {
-            int x = index[0];
-            int y = index[1];
-            int sx = offsetX + x + offsets[0];
-            int sy = offsetY + y + offsets[1];
-            int value = sceneMatrix.get(sx, sy);
-            if (value != UnitMatrix.NULL) {
-                return false;
-            }
-        }
-
-        tetrisNode.offset(offsets[0], offsets[1]);
-        return true;
-    }
-
-    public void calculateShadowY(){
-        UnitMatrix sceneMatrix = sceneNode.getUnitMatrix();
-        UnitMatrix tetrisMatrix = tetrisNode.getUnitMatrix();
-        List<int[]> indexs = tetrisMatrix.getValidUnits();
-        int offsetX = tetrisNode.getOffsetX();
-        int offsetY = tetrisNode.getOffsetY()+1;
-        if(tetrisNode.getDropY() > 0){
-            offsetY += 1;
-        }
-        boolean isTouchBottom = false;
-        do {
-            for (int[] index : indexs) {
-                int x = index[0];
-                int y = index[1];
-                int sx = offsetX + x;
-                int sy = offsetY + y;
-                int value = sceneMatrix.get(sx, sy);
-                if(value != UnitMatrix.NULL){
-                    tetrisNode.setShadowY(offsetY -1);
-                    isTouchBottom = true;
-                    break;
-                }
-            }
-            offsetY++;
-        }while (!isTouchBottom);
-    }
-
 
     private void addLine(){
         sceneNode.addRandomLine(score);
@@ -339,7 +256,7 @@ public class TetrisMachineImpl extends TetrisMachine {
             if(offsetY > 0) {
                 tetrisNode.setOffsetY(offsetY - 1);
             }
-            calculateShadowY();
+            tetrisNode.calculateShadowY(sceneNode.getUnitMatrix());
         }
     }
 
@@ -362,7 +279,7 @@ public class TetrisMachineImpl extends TetrisMachine {
             }
         }
         tetrisNode.offsetLOrR(moveStep);
-        calculateShadowY();
+        tetrisNode.calculateShadowY(sceneNode.getUnitMatrix());
         SoundManager.playClick();
     }
 
@@ -435,6 +352,11 @@ public class TetrisMachineImpl extends TetrisMachine {
     protected void onDeleteEnded() {
         calculateScore();
         sceneShaker.startShake();
+    }
+
+    @Override
+    protected boolean isExtendDropHover() {
+        return tetrisNode.getOffsetY() < 9;
     }
 
     private void calculateScore(){

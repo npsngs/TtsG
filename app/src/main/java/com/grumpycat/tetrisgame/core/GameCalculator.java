@@ -5,7 +5,7 @@ public abstract class GameCalculator {
     private static final float MAX_SPEED = 18.0f;
     private static final float BROKEN_SPEED = 14.0f;
     private static final float[] LVL_SPEED = {
-       0f, 4f, 6f, 8f,10f, 12f,BROKEN_SPEED
+       0f, 4f, 6f, 8f,10f, 13f,BROKEN_SPEED
     };
 
 
@@ -52,7 +52,7 @@ public abstract class GameCalculator {
             }
             break;
             case 2: {
-                reverseSpeed += 0.5f;
+                reverseSpeed += 1.0f;
                 if (reverseSpeed >= MAX_SPEED) {
                     mode = 3;
                     leftTime = GameConfig.ADD_LINE_INTERVAL;
@@ -64,7 +64,7 @@ public abstract class GameCalculator {
             }
             break;
             case 3:
-                reverseSpeed += 0.1f;
+                reverseSpeed += 0.2f;
                 speed = reverseSpeed * unitSize/1000;
                 break;
         }

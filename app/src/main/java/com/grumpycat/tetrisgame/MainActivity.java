@@ -14,6 +14,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.MobileAds;
 import com.grumpycat.tetrisgame.core.Director;
 import com.grumpycat.tetrisgame.tools.AppCache;
 import com.grumpycat.tetrisgame.tools.DBHelper;
@@ -90,6 +92,12 @@ public class MainActivity extends Activity implements View.OnClickListener{
         btn3.setOnClickListener(this);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         DBHelper.init(getApplication());
+        eav.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MobileAds.initialize(getApplication(), "ca-app-pub-6724294817972520~7263293066");
+            }
+        },300);
     }
 
     @Override

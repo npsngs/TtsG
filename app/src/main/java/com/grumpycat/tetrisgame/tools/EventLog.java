@@ -11,12 +11,12 @@ public class EventLog {
         fba = FirebaseAnalytics.getInstance(activity);
     }
 
-    public static void log(String name, String value){
+    public static void logGameOver(int lvl, int line, int score){
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, name);
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, value);
-        fba.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        bundle.putInt("level", lvl);
+        bundle.putInt("line", line);
+        bundle.putInt("score", score);
+        fba.logEvent("game_info", bundle);
     }
 
     public static void logPageJump(String name){

@@ -23,11 +23,6 @@ public class Tetris1 extends TetrisNode {
     @Override
     protected void onInit() {
         offsetX = 3;
-        unitMatrix.clear();
-        unitMatrix.set(0, 1, 1);
-        unitMatrix.set(1, 1, 1);
-        unitMatrix.set(2, 1, 1);
-        unitMatrix.set(3, 1, 1);
     }
 
     @Override
@@ -66,34 +61,45 @@ public class Tetris1 extends TetrisNode {
         return 4;
     }
 
+
     @Override
-    public boolean reviseWhenCollide(int x, int y, int[] out) {
-        out[0] = 0;
-        out[1] = 0;
-        switch (direction){
-            case 0:
-            case 2:
-                if(x == 0){
-                    out[0] = 1;
-                } else if(x == 1){
-                    out[0] = 2;
-                } else if(x == 2){
-                    out[0] = -1;
-                }else{
-                    out[0] = -2;
-                }
-                break;
-            case 1:
-            case 3:
-                if(y == 2){
-                    out[1] = -1;
-                }else if(y == 3){
-                    out[1] = -2;
-                }else{
-                    return false;
-                }
-                break;
+    public void calculateShadowY(UnitMatrix matrix) {
+        int ofsX = offsetX;
+        int ofsY = offsetY;
+        if(dropY > 0){
+            ofsY++;
         }
-        return true;
+
+        do {
+            switch (direction){
+                case 0:
+                    if(matrix.get(ofsX, ofsY+1) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+1, ofsY+1) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+2, ofsY+1) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+3, ofsY+1) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+                case 1:
+                    if(matrix.get(ofsX+2, ofsY+3) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+                case 2:
+                    if(matrix.get(ofsX, ofsY+2) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+1, ofsY+2) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+2, ofsY+2) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+3, ofsY+2) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+                case 3:
+                    if(matrix.get(ofsX+1, ofsY+3) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+            }
+            ofsY++;
+        }while (true);
     }
 }

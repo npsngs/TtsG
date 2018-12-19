@@ -169,11 +169,15 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
         nextView.setMode(mode);
     }
 
+
     @Override
     public void onLvlUp(int lvl) {
+        this.lvl = lvl;
         tv_lvl.setText(lvl+"");
     }
 
+    private int lvl;
+    private int line;
     private int score;
     @Override
     public void onScoreUp(int score) {
@@ -183,6 +187,7 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
 
     @Override
     public void onLineUp(int line) {
+        this.line = line;
         tv_line.setText(line+"");
     }
 
@@ -191,6 +196,7 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
     public void onGameOver() {
         if(isFinishing())
             return;
+        EventLog.logGameOver(lvl, line, score);
         SharedPreferences sp = getSharedPreferences("records", MODE_PRIVATE);
         int bestHistory = sp.getInt("bestHistory", 0);
         if (score > bestHistory){

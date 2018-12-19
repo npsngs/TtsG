@@ -13,6 +13,10 @@ import com.grumpycat.tetrisgame.nodes.TetrisNode;
 public class Tetris6 extends TetrisNode {
     public Tetris6(float unitSize, float unitMargin, RectF realFrame) {
         super(unitSize, unitMargin, realFrame);
+        unitMatrix.set(0, 0, 6);
+        unitMatrix.set(1, 1, 6);
+        unitMatrix.set(0, 1, 6);
+        unitMatrix.set(1, 0, 6);
     }
 
     @Override
@@ -23,24 +27,31 @@ public class Tetris6 extends TetrisNode {
     @Override
     protected void onInit() {
         offsetX = 4;
-        unitMatrix.clear();
-        unitMatrix.set(0, 0, 6);
-        unitMatrix.set(1, 1, 6);
-        unitMatrix.set(0, 1, 6);
-        unitMatrix.set(1, 0, 6);
     }
 
     @Override
-    public void onDirectionChange(int direction) {
+    public void calculateShadowY(UnitMatrix matrix) {
+        int ofsX = offsetX;
+        int ofsY = offsetY;
+        if(dropY > 0){
+            ofsY++;
+        }
+
+        do {
+            if(matrix.get(ofsX, ofsY+1) != UnitMatrix.NULL ||
+                    matrix.get(ofsX+1, ofsY+1) != UnitMatrix.NULL){
+                shadowY = ofsY-1;
+                return;
+            }
+            ofsY++;
+        }while (true);
     }
+
+    @Override
+    public void onDirectionChange(int direction) {}
 
     @Override
     public int getDirectionDimen() {
         return 1;
-    }
-
-    @Override
-    public boolean reviseWhenCollide(int x, int y, int[] out) {
-        return false;
     }
 }

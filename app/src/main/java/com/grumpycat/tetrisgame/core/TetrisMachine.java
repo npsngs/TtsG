@@ -43,7 +43,7 @@ public abstract class TetrisMachine implements
     protected abstract void onDeleteEnded();
 
 
-
+    protected abstract boolean isExtendDropHover();
     protected abstract boolean isGameOver();
     protected abstract void onRestart();
     protected abstract void onRestoreFromFile();
@@ -106,7 +106,11 @@ public abstract class TetrisMachine implements
                     if (tetrisOp.isNop()){
                         dropDistance = calculateDropDistance(frameTime);
                     }else{
-                        dropDistance= calculateDropDistance(frameTime)*0.5f;
+                        if (tetrisOp.isNeedRotate() && tetrisOp.getMoveStep() == 0){
+                            dropDistance= calculateDropDistance(frameTime)*0.5f;
+                        }else{
+                            dropDistance= calculateDropDistance(frameTime)*0.3f;
+                        }
                         executeGameOp(dropDistance);
                     }
 
@@ -220,7 +224,7 @@ public abstract class TetrisMachine implements
             case STATE_DROP:
                 break;
             case STATE_DROP_HOVER:
-                dropHoverTimer.startTimer();
+                dropHoverTimer.startTimer(isExtendDropHover());
                 break;
             case STATE_FAST_DROP:
                 break;

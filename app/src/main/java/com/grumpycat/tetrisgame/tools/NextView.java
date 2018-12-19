@@ -86,9 +86,6 @@ public class NextView extends View implements TetrisContainer{
             case 0:
                 canvas.translate(unitSize/2,-unitSize/2);
                 break;
-            case 1:
-                canvas.translate(0,-unitSize);
-                break;
             case 2:
                 canvas.translate(unitSize/2,-unitSize/2);
                 break;
@@ -96,10 +93,10 @@ public class NextView extends View implements TetrisContainer{
                 canvas.translate(unitSize/2,-unitSize/2);
                 break;
             case 4:
-                canvas.translate(unitSize/2,-unitSize/2);
+                canvas.translate(unitSize/2,unitSize/2);
                 break;
             case 5:
-                canvas.translate(unitSize/2,-unitSize/2);
+                canvas.translate(unitSize/2,unitSize/2);
                 break;
             case 6:
                 canvas.translate(unitSize, unitSize/2);

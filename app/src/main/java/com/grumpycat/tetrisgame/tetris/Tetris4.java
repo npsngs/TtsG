@@ -23,11 +23,6 @@ public class Tetris4 extends TetrisNode {
     @Override
     protected void onInit() {
         offsetX = 3;
-        unitMatrix.clear();
-        unitMatrix.set(1, 1, 4);
-        unitMatrix.set(2, 1, 4);
-        unitMatrix.set(0, 2, 4);
-        unitMatrix.set(1, 2, 4);
     }
 
     @Override
@@ -67,29 +62,43 @@ public class Tetris4 extends TetrisNode {
     }
 
     @Override
-    public boolean reviseWhenCollide(int x, int y, int[] out) {
-        if(x == 1 && y == 1){
-            return false;
+    public void calculateShadowY(UnitMatrix matrix) {
+        int ofsX = offsetX;
+        int ofsY = offsetY;
+        if(dropY > 0){
+            ofsY++;
         }
-        out[0] = 0;
-        out[1] = 0;
-        if(x == 0){
-            out[0] = 1;
-            if(y == 2){
-                out[1] = -1;
+
+        do {
+            switch (direction){
+                case 0:
+                    if(matrix.get(ofsX+1, ofsY+1) != UnitMatrix.NULL ||
+                            matrix.get(ofsX, ofsY+1) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+2, ofsY) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+                case 1:
+                    if(matrix.get(ofsX+2, ofsY+2) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+1, ofsY+1) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+                case 2:
+                    if(matrix.get(ofsX+1, ofsY+2) != UnitMatrix.NULL ||
+                            matrix.get(ofsX, ofsY+2) != UnitMatrix.NULL ||
+                            matrix.get(ofsX+2, ofsY+1) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
+                case 3:
+                    if(matrix.get(ofsX+1, ofsY+2) != UnitMatrix.NULL ||
+                            matrix.get(ofsX, ofsY+1) != UnitMatrix.NULL){
+                        shadowY = ofsY-1;
+                        return;
+                    }break;
             }
-        }else if(x == 2){
-            if(y == 2){
-                out[1] = -1;
-            }else{
-                return false;
-            }
-        }else if(x == 3){
-            out[0] = -1;
-            if(y == 2){
-                out[1] = -1;
-            }
-        }
-        return true;
+            ofsY++;
+        }while (true);
     }
 }
