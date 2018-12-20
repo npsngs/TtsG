@@ -49,8 +49,8 @@ public class TetrisMachineImpl extends TetrisMachine {
         sceneShaker = new SceneShaker();
         gameCalculator = new GameCalculator(){
             @Override
-            protected void onAddLine() {
-                 addLine();
+            protected boolean onAddLine() {
+                return addLine();
             }
         };
     }
@@ -249,7 +249,11 @@ public class TetrisMachineImpl extends TetrisMachine {
         }
     }
 
-    private void addLine(){
+    private boolean addLine(){
+        if(sceneNode.isOnDelete()){
+           return false;
+        }
+
         sceneNode.addRandomLine(score);
         if(tetrisNode != null){
             int offsetY = tetrisNode.getOffsetY();
@@ -258,6 +262,7 @@ public class TetrisMachineImpl extends TetrisMachine {
             }
             tetrisNode.calculateShadowY(sceneNode.getUnitMatrix());
         }
+        return true;
     }
 
     @Override

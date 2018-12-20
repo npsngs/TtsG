@@ -66,7 +66,7 @@ public class InfoNode implements GameNode {
             canvas.save();
             canvas.translate(0, -fraction*MAX_DY);
             paint.setAlpha((int) ((1f-fraction)*255));
-            canvas.drawText(str, frame.centerX(), y, paint);
+            canvas.drawText(str, frame.width()*0.15f, y, paint);
             canvas.restore();
         }
     }

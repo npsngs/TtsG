@@ -152,6 +152,8 @@ public class GameActivity extends AppCompatActivity implements UICallback,View.O
     protected void onDestroy() {
         super.onDestroy();
         director.stop();
+        director.setUiHandler(null);
+        director.setSurfaceHolder(null);
     }
 
     private void measureViews() {

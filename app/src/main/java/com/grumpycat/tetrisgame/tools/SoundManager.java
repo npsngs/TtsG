@@ -21,6 +21,10 @@ public class SoundManager {
         }else{
 
         }*/
+        if(mSoundPoll != null){
+            return;
+        }
+
         mSoundPoll = new SoundPool(100, AudioManager.STREAM_MUSIC, 0);
         try{
             AssetManager am = context.getAssets();

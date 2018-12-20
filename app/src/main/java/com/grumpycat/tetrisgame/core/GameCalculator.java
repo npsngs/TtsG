@@ -21,9 +21,8 @@ public abstract class GameCalculator {
             }
         }else if(mode == 3){
             leftTime -= frameTime;
-            if(leftTime < 0){
+            if(leftTime < 0 && onAddLine()){
                 leftTime = GameConfig.ADD_LINE_INTERVAL;
-                onAddLine();
             }
         }
     }
@@ -102,5 +101,5 @@ public abstract class GameCalculator {
         }
     }
 
-    protected abstract void onAddLine();
+    protected abstract boolean onAddLine();
 }

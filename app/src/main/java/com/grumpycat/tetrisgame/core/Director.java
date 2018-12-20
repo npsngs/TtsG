@@ -46,6 +46,9 @@ public class Director implements
 
     public void setSurfaceHolder(SurfaceHolder surfaceHolder){
         holder = surfaceHolder;
+        if(holder == null){
+            return;
+        }
         frame = surfaceHolder.getSurfaceFrame();
         sceneNode.initWithFrame(frame);
         tetrisMachine.onInitSize();

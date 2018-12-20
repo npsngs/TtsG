@@ -16,6 +16,6 @@ public class GameConfig {
     public static final long LEVEL_UP_TIME          = 900L;
     public static final long SCORE_SHOW_TIME        = 700L;
     public static final long SPEED_UP_TIME          = 20000L;
-    public static final long ADD_LINE_INTERVAL      = 24000L;
+    public static final long ADD_LINE_INTERVAL      = 32000L;
     public static final int MAX_RANKS               = 50;
 }

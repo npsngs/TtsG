@@ -71,7 +71,7 @@ public class OpDetector {
     private static class SpeedUpController implements OpController{
         private static final long MIN_INTERVAL = 30L;
         private static final long[] INTERVALS = {
-                130L, 90L, 60L, MIN_INTERVAL
+                150L, 130L, 110L, 80L, MIN_INTERVAL
         };
         private long interval;
         private int count;

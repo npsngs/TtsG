@@ -15,12 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.MobileAds;
 import com.grumpycat.tetrisgame.core.Director;
 import com.grumpycat.tetrisgame.tools.AppCache;
 import com.grumpycat.tetrisgame.tools.DBHelper;
 import com.grumpycat.tetrisgame.tools.EnterAnimView;
 import com.grumpycat.tetrisgame.tools.EventLog;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 
@@ -35,6 +37,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
