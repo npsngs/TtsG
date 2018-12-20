@@ -124,6 +124,7 @@ public class Director implements
     @Override
     public void stop() {
         tetrisMachine.stop();
+        gameHandler = null;
     }
 
     @Override

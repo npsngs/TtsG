@@ -1,11 +1,12 @@
 package com.grumpycat.tetrisgame.core;
 
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 
-public class GameLooper implements Runnable, ILooperController{
+public class GameLooper implements ILooperController{
     private volatile boolean isStopped = true;
     private volatile boolean isPaused = true;
     private volatile Handler mHandler;
@@ -18,28 +19,14 @@ public class GameLooper implements Runnable, ILooperController{
     }
 
     @Override
-    public void run() {
-        Looper.prepare();
-        mHandler = new MyHandler();
-
-        if(callback != null){
-            callback.onLoopStart(getLooper());
-        }
-        Looper.loop();
-    }
-
-    public Looper getLooper(){
-        if(mHandler == null)
-            return null;
-        return mHandler.getLooper();
-    }
-
-    @Override
     public void startLoop(){
         if(isStopped){
             isStopped = false;
             isPaused = true;
-            new Thread(this).start();
+            HandlerThread thread = new HandlerThread("GAME LOOPER");
+            thread.start();
+            mHandler = new MyHandler(thread.getLooper());
+            callback.onLoopStart(thread.getLooper());
         }
     }
 
@@ -80,6 +67,9 @@ public class GameLooper implements Runnable, ILooperController{
     private static final int MSG_RESUME =           4;
 
     private class MyHandler extends Handler{
+        public MyHandler(Looper looper) {
+            super(looper);
+        }
 
         @Override
         public void handleMessage(Message msg) {
