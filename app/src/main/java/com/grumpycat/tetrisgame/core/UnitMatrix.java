@@ -43,6 +43,10 @@ public class UnitMatrix {
     }
 
     public void set(int x, int y, int value){
+        if(x < 0 || y < 0 || x > column-1 || y > row-1){
+            return;
+        }
+
         int oldValue = units[x][y];
         if(oldValue != value){
             units[x][y] = value;
@@ -56,6 +60,10 @@ public class UnitMatrix {
     }
 
     public boolean isFinishLine(int line){
+        if(line < 0 || line >= row){
+            return false;
+        }
+
         for(int x=0;x<column;x++){
             if (units[x][line] == NULL) return false;
         }

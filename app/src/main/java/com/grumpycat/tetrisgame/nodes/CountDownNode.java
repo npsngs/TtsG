@@ -6,6 +6,7 @@ import android.graphics.Rect;
 
 import com.grumpycat.tetrisgame.tools.AppCache;
 import com.grumpycat.tetrisgame.tools.CommonTools;
+import com.grumpycat.tetrisgame.tools.SoundManager;
 
 public class CountDownNode implements GameNode {
     private boolean isOver = false;
@@ -32,6 +33,7 @@ public class CountDownNode implements GameNode {
         isOver = false;
         startTime = 0L;
         count = MAX_COUNT;
+        SoundManager.playCountDown();
     }
 
     public void pastFrameTime(long frameTime){
@@ -39,8 +41,10 @@ public class CountDownNode implements GameNode {
         if(startTime > COUNT_DOWN_DURATION){
             startTime -= COUNT_DOWN_DURATION;
             count--;
-            if(count <=0 )
+            if(count <=0 ){
                 isOver = true;
+                SoundManager.stopCountDown();
+            }
         }
     }
 

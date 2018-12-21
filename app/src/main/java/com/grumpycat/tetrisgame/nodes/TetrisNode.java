@@ -250,6 +250,7 @@ public abstract class TetrisNode implements GameNode{
         json.put("offsetY", offsetY);
         json.put("dropY", dropY);
         json.put("direction",direction);
+        json.put("shadowY",shadowY);
         return json;
     }
 
@@ -258,6 +259,7 @@ public abstract class TetrisNode implements GameNode{
         offsetY = json.getInt("offsetY");
         dropY = json.getInt("dropY");
         direction = json.getInt("direction");
+        shadowY = json.getInt("shadowY");
         onDirectionChange(direction);
     }
 

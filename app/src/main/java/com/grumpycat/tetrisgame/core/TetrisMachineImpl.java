@@ -257,7 +257,7 @@ public class TetrisMachineImpl extends TetrisMachine {
         sceneNode.addRandomLine(score);
         if(tetrisNode != null){
             int offsetY = tetrisNode.getOffsetY();
-            if(offsetY > 0) {
+            if(offsetY > 1) {
                 tetrisNode.setOffsetY(offsetY - 1);
             }
             tetrisNode.calculateShadowY(sceneNode.getUnitMatrix());

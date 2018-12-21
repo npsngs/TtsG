@@ -53,12 +53,12 @@ public class SoundManager {
     private static int lvl_up_id;
     public static void playClick(){
         float volume = AppCache.getVolume();
-        mSoundPoll.play(click_id, volume, volume, 0, 0, 1f);
+        mSoundPoll.play(click_id, volume*0.3f, volume*0.3f, 0, 0, 1f);
     }
 
     public static void playFastDrop(){
         float volume = AppCache.getVolume();
-        mSoundPoll.play(fast_drop_id, volume, volume, 0, 0, 1f);
+        mSoundPoll.play(fast_drop_id, volume*0.3f, volume*0.3f, 0, 0, 1f);
     }
 
     public static void playDrop(){

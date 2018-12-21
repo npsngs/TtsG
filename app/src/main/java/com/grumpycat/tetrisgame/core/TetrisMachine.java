@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.grumpycat.tetrisgame.GameConfig;
+import com.grumpycat.tetrisgame.tools.SoundManager;
 
 import org.json.JSONObject;
 
@@ -122,6 +123,7 @@ public abstract class TetrisMachine implements
             case STATE_DROP_HOVER:
                 if(dropHoverTimer.isTimeOver()){
                     nextState();
+                    SoundManager.playDrop();
                 }else{
                     if(!tetrisOp.isNeedFastDrop() && !tetrisOp.isNop()){
                         float dropDistance = calculateDropDistance(frameTime);
